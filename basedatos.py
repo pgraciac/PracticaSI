@@ -9,6 +9,12 @@ def getFromDB(table):
     con.close()
     return df
 
+def SQLStatement(consulta):
+    con = sqlite3.connect('PracticaSistemas.db')
+    df = pd.read_sql_query(consulta, con)
+    con.commit()
+    con.close()
+    return df
 
 def insertarLegal(web):
     con = sqlite3.connect('PracticaSistemas.db')
@@ -36,7 +42,7 @@ def insertarUsers(user):
     cur = con.cursor()
     cur.execute(
         "CREATE TABLE IF NOT EXISTS users(name text primary key, telefono int , contrasena text, provincia text,"
-        " permisos int, totalEmails int, phisingEmails int, clicadosEmails int, fechas string, ips string)")
+        " permisos int, totalEmails int, phisingEmails int, clicadosEmails int, fechas int, ips int)")
 
     if (user[list(user.keys())[0]])['telefono'] != 'None':
         telefono = (user[list(user.keys())[0]])['telefono']
@@ -47,19 +53,20 @@ def insertarUsers(user):
         provincia = (user[list(user.keys())[0]])['provincia']
     else:
         provincia = 'NULL'
-    fechas = []
-    for fecha in (user[list(user.keys())[0]])['fechas']:
-        fechas.append(fecha)
-    ips = []
-    for ip in (user[list(user.keys())[0]])['ips']:
-        ips.append(ip)
+
     cur.execute(f"INSERT INTO users VALUES('{list(user.keys())[0]}', {telefono},"
                 f"'{(user[list(user.keys())[0]])['contrasena']}', '{provincia}',"
                 f"{(user[list(user.keys())[0]])['permisos']}, {((user[list(user.keys())[0]])['emails'])['total']},"
                 f"{((user[list(user.keys())[0]])['emails'])['phishing']}, {((user[list(user.keys())[0]])['emails'])['cliclados']},"
-                f"{fechas}, {ips})")
-    cur.execute("DROP TABLE IF EXISTS fecha")
-    cur.execute("DROP TABLE IF EXISTS ip")
+                f"{len((user[list(user.keys())[0]])['fechas'])}, {len((user[list(user.keys())[0]])['ips'])})")
+
+    cur.execute("CREATE TABLE IF NOT EXISTS fecha(fecha text,name text, foreign key(name) references users(name))")
+    for fecha in (user[list(user.keys())[0]])['fechas']:
+        cur.execute(f"INSERT INTO fecha VALUES('{fecha}', '{list(user.keys())[0]}')")
+
+    cur.execute("CREATE TABLE IF NOT EXISTS ip(ip text,name text, foreign key(name) references users(name))")
+    for ip in (user[list(user.keys())[0]])['ips']:
+        cur.execute(f"INSERT INTO ip VALUES('{ip}', '{list(user.keys())[0]}')")
 
     con.commit()
     con.close()
