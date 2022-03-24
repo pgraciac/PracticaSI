@@ -1,7 +1,9 @@
-import numpy as np
-import pandas as pd
+from legal import legalToDB
+from users import usersToDB
+from basedatos import borrarLegal, borrarUsers
 
 if __name__ == '__main__':
-    legal_df = pd.read_json('/Logs/legal.json', orient = 'records')
-    print(legal_df)
-
+    borrarLegal()
+    borrarUsers()
+    legalToDB()
+    usersToDB()
