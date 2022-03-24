@@ -21,13 +21,6 @@ def insertarLegal(web):
     con.commit()
     con.close()
 
-def borrarFecha():
-    con = sqlite3.connect('PracticaSistemas.db')
-    cur = con.cursor()
-    cur.execute("DROP TABLE IF EXISTS fecha")
-    con.commit()
-    con.close()
-
 
 def borrarLegal():
     con = sqlite3.connect('PracticaSistemas.db')
@@ -41,8 +34,8 @@ def insertarUsers(user):
     con = sqlite3.connect('PracticaSistemas.db')
     cur = con.cursor()
     cur.execute(
-        "CREATE TABLE If NOT EXISTS users(name text primary key, telefono int , contrasena text, provincia text,"
-        " permisos int, totalEmails int, phisingEmails int, clicadosEmails int, totalFechas int, totalIps int)")
+        "CREATE TABLE IF NOT EXISTS users(name text primary key, telefono int , contrasena text, provincia text,"
+        " permisos int, totalEmails int, phisingEmails int, clicadosEmails int, fechas text[], ips text[])")
 
     if (user[list(user.keys())[0]])['telefono'] != 'None':
         telefono = (user[list(user.keys())[0]])['telefono']
@@ -53,17 +46,20 @@ def insertarUsers(user):
         provincia = (user[list(user.keys())[0]])['provincia']
     else:
         provincia = 'NULL'
+    fechas = []
+    for fecha in (user[list(user.keys())[0]])['fechas']:
+        fechas.append(fecha)
+    ips = []
+    for ip in (user[list(user.keys())[0]])['ips']:
+        ips.append(ip)
     cur.execute(f"INSERT INTO users VALUES('{list(user.keys())[0]}', {telefono},"
                 f"'{(user[list(user.keys())[0]])['contrasena']}', '{provincia}',"
                 f"{(user[list(user.keys())[0]])['permisos']}, {((user[list(user.keys())[0]])['emails'])['total']},"
                 f"{((user[list(user.keys())[0]])['emails'])['phishing']}, {((user[list(user.keys())[0]])['emails'])['cliclados']},"
-                f"{len((user[list(user.keys())[0]])['fechas'])}, {len((user[list(user.keys())[0]])['ips'])})")
-    cur.execute("CREATE TABLE IF NOT EXISTS fecha(fecha text,name text, foreign key(name) references users(name))")
-    for fecha in (user[list(user.keys())[0]])['fechas']:
-        cur.execute(f"INSERT INTO fecha VALUES('{fecha}', '{list(user.keys())[0]}')")
-    cur.execute("CREATE TABLE IF NOT EXISTS ip(ip text,name text, foreign key(name) references users(name))")
-    for ip in (user[list(user.keys())[0]])['ips']:
-        cur.execute(f"INSERT INTO ip VALUES('{ip}', '{list(user.keys())[0]}')")
+                f"{fechas}, {ips})")
+    cur.execute("DROP TABLE IF EXISTS fecha")
+    cur.execute("DROP TABLE IF EXISTS ip")
+
     con.commit()
     con.close()
 
