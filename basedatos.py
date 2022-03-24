@@ -25,9 +25,14 @@ def insertarUsers(user):
     con = sqlite3.connect('PracticaSistemas.db')
     cur = con.cursor()
 <<<<<<< HEAD
+<<<<<<< HEAD
     cur.execute(
         "CREATE TABLE IF NOT EXISTS users(name text primary key, telefono int , contrasena text, provincia text,"
         " permisos int, totalEmails int, phisingEmails int, clicadosEmails int, fechas text[], ips text[])")
+=======
+    cur.execute("CREATE TABLE If NOT EXISTS users(name text primary key, telefono int , contrasena text, provincia text,"
+                " permisos int, totalemails int, phisingemails int, clicadosemails int, totalfechas int, totalips int)")
+>>>>>>> parent of 8bc4e70 (Tablas perfectas + recuperar de DB)
 =======
     cur.execute("CREATE TABLE If NOT EXISTS users(name text primary key, telefono int , contrasena text, provincia text,"
                 " permisos int, totalemails int, phisingemails int, clicadosemails int, totalfechas int, totalips int)")
@@ -59,6 +64,9 @@ def insertarUsers(user):
 
 =======
                 f"{len((user[list(user.keys())[0]])['fechas'])}, {len((user[list(user.keys())[0]])['ips'])})")
+<<<<<<< HEAD
+>>>>>>> parent of 8bc4e70 (Tablas perfectas + recuperar de DB)
+=======
 >>>>>>> parent of 8bc4e70 (Tablas perfectas + recuperar de DB)
     con.commit()
     con.close()
