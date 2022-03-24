@@ -1,5 +1,5 @@
-{
-	"legal": [{
+[
+	{
 		"www.nbcckcip.com": {
 			"cookies": 0,
 			"aviso": 1,
@@ -139,5 +139,5 @@
 			"proteccion_de_datos": 1,
 			"creacion": 2011
 		}
-	}]
-}
+	}
+]
