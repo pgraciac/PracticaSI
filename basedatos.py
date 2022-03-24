@@ -1,15 +1,25 @@
 import sqlite3
+import pandas as pd
+
+
+def getFromDB(table):
+    con = sqlite3.connect('PracticaSistemas.db')
+    df = pd.read_sql_query(f"SELECT * FROM {table}", con)
+    con.commit()
+    con.close()
+    return df
 
 
 def insertarLegal(web):
     con = sqlite3.connect('PracticaSistemas.db')
     cur = con.cursor()
     cur.execute(
-        "CREATE TABLE IF NOT EXISTS legal(name text primary key, cookies int, aviso int, proteccion_de_datos int, creacion int)")
+        "CREATE TABLE IF NOT EXISTS legal(name text primary key, cookies int, aviso int, proteccionDeDatos int, creacion int)")
     cur.execute(
         f"INSERT INTO legal VALUES('{list(web.keys())[0]}', {(web[list(web.keys())[0]])['cookies']}, {(web[list(web.keys())[0]])['aviso']},"
         f"{(web[list(web.keys())[0]])['proteccion_de_datos']},{(web[list(web.keys())[0]])['creacion']})")
     con.commit()
+
     con.close()
 
 
@@ -24,19 +34,9 @@ def borrarLegal():
 def insertarUsers(user):
     con = sqlite3.connect('PracticaSistemas.db')
     cur = con.cursor()
-<<<<<<< HEAD
-<<<<<<< HEAD
     cur.execute(
         "CREATE TABLE IF NOT EXISTS users(name text primary key, telefono int , contrasena text, provincia text,"
-        " permisos int, totalEmails int, phisingEmails int, clicadosEmails int, fechas text[], ips text[])")
-=======
-    cur.execute("CREATE TABLE If NOT EXISTS users(name text primary key, telefono int , contrasena text, provincia text,"
-                " permisos int, totalemails int, phisingemails int, clicadosemails int, totalfechas int, totalips int)")
->>>>>>> parent of 8bc4e70 (Tablas perfectas + recuperar de DB)
-=======
-    cur.execute("CREATE TABLE If NOT EXISTS users(name text primary key, telefono int , contrasena text, provincia text,"
-                " permisos int, totalemails int, phisingemails int, clicadosemails int, totalfechas int, totalips int)")
->>>>>>> parent of 8bc4e70 (Tablas perfectas + recuperar de DB)
+        " permisos int, totalEmails int, phisingEmails int, clicadosEmails int, fechas string, ips string)")
 
     if (user[list(user.keys())[0]])['telefono'] != 'None':
         telefono = (user[list(user.keys())[0]])['telefono']
@@ -57,17 +57,10 @@ def insertarUsers(user):
                 f"'{(user[list(user.keys())[0]])['contrasena']}', '{provincia}',"
                 f"{(user[list(user.keys())[0]])['permisos']}, {((user[list(user.keys())[0]])['emails'])['total']},"
                 f"{((user[list(user.keys())[0]])['emails'])['phishing']}, {((user[list(user.keys())[0]])['emails'])['cliclados']},"
-<<<<<<< HEAD
                 f"{fechas}, {ips})")
     cur.execute("DROP TABLE IF EXISTS fecha")
     cur.execute("DROP TABLE IF EXISTS ip")
 
-=======
-                f"{len((user[list(user.keys())[0]])['fechas'])}, {len((user[list(user.keys())[0]])['ips'])})")
-<<<<<<< HEAD
->>>>>>> parent of 8bc4e70 (Tablas perfectas + recuperar de DB)
-=======
->>>>>>> parent of 8bc4e70 (Tablas perfectas + recuperar de DB)
     con.commit()
     con.close()
 
