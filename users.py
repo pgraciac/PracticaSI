@@ -11,14 +11,56 @@ def usersToDB():
         insertarUsers(user)
 
 
-def showCritcUsers(dfUsers):
-    vulnerables = ['5f4dcc3b5aa765d61d8327deb882cf99', '3bf1114a986ba87ed28fc1b5884fc2f8',
+def statsByGroups(dfUsers):
+    dfPermisos0 = dfUsers[dfUsers["permisos"] == 0]
+    dfPermisos1 = dfUsers[dfUsers["permisos"] == 1]
+    dfEmailsMas = dfUsers[dfUsers["totalEmails"] >= 200]
+    dfEmailsMenos = dfUsers[dfUsers["totalEmails"] < 200]
+    print("\nEmails Totales:\n")
+    print("Emails totales de phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].sum()))
+    print("Emails totales de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].sum()))
+    print("Emails totales de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].sum()))
+    print("Emails totales de phising de usuarios con menos de 200 emails: " + str(dfEmailsMenos['phisingEmails'].sum()))
+    print("\nMedias:\n")
+    print("Media de  emails dephising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].mean()))
+    print("Media de emails de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].mean()))
+    print("Media de emails de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].mean()))
+    print(
+        "Media de emails de phising de usuarios con menos de 200 emails: " + str(dfEmailsMenos['phisingEmails'].mean()))
+    print("\nMedianas:\n")
+    print("Mediana de emails de phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].median()))
+    print("Mediana de emails de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].median()))
+    print(
+        "Mediana de emails de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].median()))
+    print("Mediana de emails de phising de usuarios con menos de 200 emails: " + str(
+        dfEmailsMenos['phisingEmails'].median()))
+    print("\nVarianzas:\n")
+    print("Varianza de emails de phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].var()))
+    print("Varianza de emails de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].var()))
+    print("Varianza de emails de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].var()))
+    print("Varianza de emails de phising de usuarios con menos de 200 emails: " + str(
+        dfEmailsMenos['phisingEmails'].var()))
+    print("\nMáximos:\n")
+    print("Máximo de emails de phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].max()))
+    print("Máximo de emails de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].max()))
+    print("Máximo de emails de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].max()))
+    print(
+        "Máximo de emails de phising de usuarios con menos de 200 emails: " + str(dfEmailsMenos['phisingEmails'].max()))
+    print("\nMínimos:\n")
+    print("Mínimo de emails de phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].min()))
+    print("Mínimo de emails de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].min()))
+    print("Mínimo de emails de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].min()))
+    print(
+        "Mínimo de emails de phising de usuarios con menos de 200 emails: " + str(dfEmailsMenos['phisingEmails'].min()))
+
+
+
+
+def showCritcUsers(dfUsers,vulnerables = ['5f4dcc3b5aa765d61d8327deb882cf99', '3bf1114a986ba87ed28fc1b5884fc2f8',
                    '276f8db0b86edaa7fc805516c852c889', '84d961568a65073a3bcf0eb216b2a576',
                    '0acf4539a14b3aa27deeb4cbdf6e989f', '1660fe5c81c4ce64a2611494c439e1ba',
-                   'd16d377af76c99d27093abc22244b342', 'eb0a191797624dd3a48fa681d3061212',
-                   '714ab9fbdad5c5da1b5d34fe1a093b79', 'd8578edf8458ce06fbc5bb76a58c5ca4',
-                   '4297f44b13955235245b2497399d7a93', '37b4e2d82900d5e94b8da524fbeb33c0',
-                   'd0763edaa9d9bd2a9516280e9044d885', 'a152e841783914146e4bcd4f39100686']
+                   'd16d377af76c99d27093abc22244b342', 'eb0a191797624dd3a48fa681d3061212',  '714ab9fbdad5c5da1b5d34fe1a093b79', 'd8578edf8458ce06fbc5bb76a58c5ca4',
+                   '4297f44b13955235245b2497399d7a93', '37b4e2d82900d5e94b8da524fbeb33c0','d0763edaa9d9bd2a9516280e9044d885', 'a152e841783914146e4bcd4f39100686']):
     usersVulnerable = []
     usersVulnerableCriticidad = []
     dfUsersCriticos = dfUsers.copy()
@@ -39,14 +81,13 @@ def showCritcUsers(dfUsers):
     plt.show()
 
 
-def showComparativeUsers(dfUsers):
-    vulnerables = ['5f4dcc3b5aa765d61d8327deb882cf99', '3bf1114a986ba87ed28fc1b5884fc2f8',
+def showComparativeUsers(dfUsers,vulnerables = ['5f4dcc3b5aa765d61d8327deb882cf99', '3bf1114a986ba87ed28fc1b5884fc2f8',
                    '276f8db0b86edaa7fc805516c852c889', '84d961568a65073a3bcf0eb216b2a576',
                    '0acf4539a14b3aa27deeb4cbdf6e989f', '1660fe5c81c4ce64a2611494c439e1ba',
                    'd16d377af76c99d27093abc22244b342', 'eb0a191797624dd3a48fa681d3061212',
                    '714ab9fbdad5c5da1b5d34fe1a093b79', 'd8578edf8458ce06fbc5bb76a58c5ca4',
                    '4297f44b13955235245b2497399d7a93', '37b4e2d82900d5e94b8da524fbeb33c0',
-                   'd0763edaa9d9bd2a9516280e9044d885', 'a152e841783914146e4bcd4f39100686']
+                   'd0763edaa9d9bd2a9516280e9044d885', 'a152e841783914146e4bcd4f39100686']):
     mediaVulnera = 0
     mediaNoVulnera = 0
     for i in dfUsers.index:
@@ -64,14 +105,13 @@ def showComparativeUsers(dfUsers):
     plt.show()
 
 
-def showComparativePassword(dfUsers):
-    vulnerables = ['5f4dcc3b5aa765d61d8327deb882cf99', '3bf1114a986ba87ed28fc1b5884fc2f8',
+def showComparativePassword(dfUsers,vulnerables = ['5f4dcc3b5aa765d61d8327deb882cf99', '3bf1114a986ba87ed28fc1b5884fc2f8',
                    '276f8db0b86edaa7fc805516c852c889', '84d961568a65073a3bcf0eb216b2a576',
                    '0acf4539a14b3aa27deeb4cbdf6e989f', '1660fe5c81c4ce64a2611494c439e1ba',
                    'd16d377af76c99d27093abc22244b342', 'eb0a191797624dd3a48fa681d3061212',
                    '714ab9fbdad5c5da1b5d34fe1a093b79', 'd8578edf8458ce06fbc5bb76a58c5ca4',
                    '4297f44b13955235245b2497399d7a93', '37b4e2d82900d5e94b8da524fbeb33c0',
-                   'd0763edaa9d9bd2a9516280e9044d885', 'a152e841783914146e4bcd4f39100686']
+                   'd0763edaa9d9bd2a9516280e9044d885', 'a152e841783914146e4bcd4f39100686']):
     plt.bar(["Comprometidas", "No Comprometidas"], [len(vulnerables), (dfUsers.shape[0] - len(vulnerables))],
             color=['red', 'green'])
     plt.title("Contraseñas Comprometidas vs No Comprometidas")
