@@ -51,4 +51,5 @@ def showPrivacyPoliticy(dfLegal):
         anosb[i] += ancho
     plt.bar(anosb, noPoli, ancho, label='No tiene política')
     plt.legend(loc='best')
+    plt.title("Número de páginas web con política de privacidad frente a las que no por año")
     plt.show()

@@ -16,13 +16,18 @@ def statsByGroups(dfUsers):
     dfPermisos1 = dfUsers[dfUsers["permisos"] == 1]
     dfEmailsMas = dfUsers[dfUsers["totalEmails"] >= 200]
     dfEmailsMenos = dfUsers[dfUsers["totalEmails"] < 200]
-    print("\nEmails Totales:\n")
-    print("Emails totales de phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].sum()))
-    print("Emails totales de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].sum()))
-    print("Emails totales de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].sum()))
-    print("Emails totales de phising de usuarios con menos de 200 emails: " + str(dfEmailsMenos['phisingEmails'].sum()))
+    print("\nTotal de observaciones:\n")
+    print("Observaciones totales de phising de usuarios con permiso 0: " + str(dfPermisos0['clicadosEmails'].sum()))
+    print("Observaciones totales de phising de usuarios con permiso 1: " + str(dfPermisos1['clicadosEmails'].sum()))
+    print("Observaciones totales de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['clicadosEmails'].sum()))
+    print("Observaciones totales de phising de usuarios con menos de 200 emails: " + str(dfEmailsMenos['clicadosEmails'].sum()))
+    print("\nTotal Valores Ausentes\n")
+    print("Número de valores ausentes en phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].isnull().sum()))
+    print("Número de valores ausentes en phising de usuarios con permiso 1: " + str(dfPermisos0['phisingEmails'].isnull().sum()))
+    print("Número de valores ausentes en phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].isnull().sum()))
+    print("Número de valores ausentes en phising de usuarios con menos de 200 emails: " + str(dfEmailsMenos['phisingEmails'].isnull().sum()))
     print("\nMedias:\n")
-    print("Media de  emails dephising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].mean()))
+    print("Media de  emails de phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].mean()))
     print("Media de emails de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].mean()))
     print("Media de emails de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].mean()))
     print(
@@ -99,7 +104,7 @@ def showComparativeUsers(dfUsers,vulnerables = ['5f4dcc3b5aa765d61d8327deb882cf9
     mediaNoVulnera /= (dfUsers.shape[0] - len(vulnerables))
     plt.bar(["Usuarios Vulnerables", "Usuarios No Vulnerables"], [mediaVulnera, mediaNoVulnera],
             color=['blue', 'orange'])
-    plt.title("Comparativa")
+    plt.title("Media de conexiones de Usarios Vulnerables vs No Vulnerables")
     plt.text(0, mediaVulnera, mediaVulnera, ha='center')
     plt.text(1, mediaNoVulnera, mediaNoVulnera, ha='center')
     plt.show()
