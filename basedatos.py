@@ -78,3 +78,63 @@ def borrarUsers():
     cur.execute("DROP TABLE IF EXISTS users")
     con.commit()
     con.close()
+
+
+def basicStats(dfUsers, dfLegal):
+    print("Muestras de usuarios: " + str(dfUsers.shape[0]))
+    print("Muestras de legal: " + str(dfLegal.shape[0]))
+    print("Media del total de fechas en las que se ha iniciado sesión: " + str(dfUsers["fechas"].mean()))
+    print("Desviación estándar del total de fechas en las que se ha iniciado sesión: " + str(
+        dfUsers["fechas"].std(axis=0)))
+    print("Media del total de ips detectadas: " + str(dfUsers["ips"].mean()))
+    print("Desviación estándar del total de ips detectadas: " + str(dfUsers["ips"].std(axis=0)))
+    print("Media del total de emails recibidos: " + str(dfUsers["totalEmails"].mean()))
+    print("Desviación estándar del total de emails recibidos: " + str(dfUsers["totalEmails"].std(axis=0)))
+    print("Máximo del total de fechas que se ha iniciado sesión: " + str(dfUsers["fechas"].max()))
+    print("Mínimo del total de fechas que se ha iniciado sesión: " + str(dfUsers["fechas"].min()))
+    print("Máximo del total de emails recibidos: " + str(dfUsers["totalEmails"].max()))
+    print("Mínimo del total de emails recibidos: " + str(dfUsers["totalEmails"].min()))
+
+
+
+def statsByGroups(dfUsers,dfLegal):
+    dfPermisos0 = dfUsers[dfUsers["permisos"] == 0]
+    dfPermisos1 = dfUsers[dfUsers["permisos"] == 1]
+    dfEmailsMas = dfUsers[dfUsers["totalEmails"] >= 200]
+    dfEmailsMenos = dfUsers[dfUsers["totalEmails"] < 200]
+    print("\nEmails Totales:\n")
+    print("Emails totales de phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].sum()))
+    print("Emails totales de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].sum()))
+    print("Emails totales de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].sum()))
+    print("Emails totales de phising de usuarios con menos de 200 emails: " + str(dfEmailsMenos['phisingEmails'].sum()))
+    print("\nMedias:\n")
+    print("Media de  emails dephising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].mean()))
+    print("Media de emails de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].mean()))
+    print("Media de emails de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].mean()))
+    print(
+        "Media de emails de phising de usuarios con menos de 200 emails: " + str(dfEmailsMenos['phisingEmails'].mean()))
+    print("\nMedianas:\n")
+    print("Mediana de emails de phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].median()))
+    print("Mediana de emails de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].median()))
+    print(
+        "Mediana de emails de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].median()))
+    print("Mediana de emails de phising de usuarios con menos de 200 emails: " + str(
+        dfEmailsMenos['phisingEmails'].median()))
+    print("\nVarianzas:\n")
+    print("Varianza de emails de phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].var()))
+    print("Varianza de emails de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].var()))
+    print("Varianza de emails de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].var()))
+    print("Varianza de emails de phising de usuarios con menos de 200 emails: " + str(
+        dfEmailsMenos['phisingEmails'].var()))
+    print("\nMáximos:\n")
+    print("Máximo de emails de phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].max()))
+    print("Máximo de emails de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].max()))
+    print("Máximo de emails de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].max()))
+    print(
+        "Máximo de emails de phising de usuarios con menos de 200 emails: " + str(dfEmailsMenos['phisingEmails'].max()))
+    print("\nMínimos:\n")
+    print("Mínimo de emails de phising de usuarios con permiso 0: " + str(dfPermisos0['phisingEmails'].min()))
+    print("Mínimo de emails de phising de usuarios con permiso 1: " + str(dfPermisos1['phisingEmails'].min()))
+    print("Mínimo de emails de phising de usuarios con 200 emails o más: " + str(dfEmailsMas['phisingEmails'].min()))
+    print(
+        "Mínimo de emails de phising de usuarios con menos de 200 emails: " + str(dfEmailsMenos['phisingEmails'].min()))
