@@ -16,7 +16,13 @@ def topUsuariosCriticos():
     dfUsers = getFromDB('users')
     numero = request.form.get('numeroUsuarios')
     users = criticUsers(dfUsers,int(numero))[0]
-    return render_template('TopUsuariosCriticos.html', users = users, numero = numero)
+    cincuentamas = request.form.get('50>')
+    cincuentamenos = request.form.get('50<')
+    if cincuentamas == 'on':
+        usersSpam =
+    elif cincuentamenos == 'off':
+        usersSpam =
+    return render_template('TopUsuariosCriticos.html', users = users, usersSpam = usersSpam)
 
 @app.route('/topWebsVulnerables/', methods = ['POST'])
 def topWebsVulnerables():
@@ -24,5 +30,6 @@ def topWebsVulnerables():
     numero = request.form.get('numeroWebs')
     webs = outdatedWebs(dfLegal, int(numero))[0]
     return render_template('TopWebsVulnerables.html', webs=webs, numero=numero)
+
 if __name__ == '__main__':
     app.run(debug=True)

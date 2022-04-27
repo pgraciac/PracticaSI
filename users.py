@@ -90,7 +90,7 @@ def showCritcUsers(dfUsers,vulnerables = ['5f4dcc3b5aa765d61d8327deb882cf99', '3
     plt.ylabel("Criticidad")
     plt.xlabel("Usuarios")
     plt.title('Los 10 usuarios más críticos')
-    plt.savefig('topXCriticUsers')
+    plt.savefig('top10CriticUsers')
     plt.show()
 
 
@@ -129,3 +129,9 @@ def showComparativePassword(dfUsers,vulnerables = ['5f4dcc3b5aa765d61d8327deb882
             color=['red', 'green'])
     plt.title("Contraseñas Comprometidas vs No Comprometidas")
     plt.show()
+
+def usersSpam(duda):
+    if duda = '>':
+
+    else:
+        
