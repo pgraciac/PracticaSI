@@ -1,9 +1,26 @@
-<Title>Top Usuarios Criticos</Title>
+<Title>Usuarios Criticos</Title>
 <h2>Top {{ numero }} de Usuarios más Críticos</h2>
 <ul>
     {% for user in users %}
     <li>
         {{ user }}
     </li>
-    {% endfor %} {{ hola }}
+    {% endfor %} {% if usersMas %}
+
+    <h2>Usuarios con mas de un 50% de emails de spam clicados</h2>
+    {% for user in usersMas %}
+    <li>
+        {{ user }}
+    </li>
+    {% endfor %} {% endif %} {% if usersMenos %}
+
+    <h2>Usuarios con menos de un 50% de emails de spam clicados</h2>
+    {% for user in usersMenos%}
+    <li>
+        {{ user }}
+    </li>
+    {% endfor %} {% endif %}
+
+
+
 </ul>

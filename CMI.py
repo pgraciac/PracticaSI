@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 
 from basedatos import getFromDB
 from legal import outdatedWebs
-from users import criticUsers
+from users import criticUsers, usersSpam
 
 app = Flask(__name__)
 
@@ -12,17 +12,17 @@ def hello_world():
     return render_template('index.html')
 
 @app.route('/topUsuariosCriticos/', methods = ['POST'])
-def topUsuariosCriticos():
+def topUsuariosCriticos(usersMas = None, usersMenos = None):
     dfUsers = getFromDB('users')
     numero = request.form.get('numeroUsuarios')
     users = criticUsers(dfUsers,int(numero))[0]
-    cincuentamas = request.form.get('50>')
-    cincuentamenos = request.form.get('50<')
+    cincuentamas = request.form.get('50mas')
+    cincuentamenos = request.form.get('50menos')
     if cincuentamas == 'on':
-        usersSpam =
-    elif cincuentamenos == 'off':
-        usersSpam =
-    return render_template('TopUsuariosCriticos.html', users = users, usersSpam = usersSpam)
+        usersMas = usersSpam('mas', dfUsers)
+    if cincuentamenos == 'on':
+        usersMenos = usersSpam('menos', dfUsers)
+    return render_template('TopUsuariosCriticos.html', users = users, usersMas = usersMas, usersMenos = usersMenos)
 
 @app.route('/topWebsVulnerables/', methods = ['POST'])
 def topWebsVulnerables():

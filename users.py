@@ -130,8 +130,12 @@ def showComparativePassword(dfUsers,vulnerables = ['5f4dcc3b5aa765d61d8327deb882
     plt.title("Contraseñas Comprometidas vs No Comprometidas")
     plt.show()
 
-def usersSpam(duda):
-    if duda = '>':
-
-    else:
-        
+def usersSpam(duda, dfUsers):
+    dfUsersCriticos = dfUsers.copy()
+    dfUsersCriticos['criticidad'] = dfUsersCriticos['clicadosEmails'] / dfUsersCriticos['phisingEmails']
+    if duda == 'mas':
+        dfUsersCriticos = dfUsersCriticos[dfUsersCriticos['criticidad'] >= 0.5]
+        return list(dfUsersCriticos['name'])
+    elif duda == 'menos':
+        dfUsersCriticos = dfUsersCriticos[dfUsersCriticos['criticidad'] < 0.5]
+        return list(dfUsersCriticos['name'])
