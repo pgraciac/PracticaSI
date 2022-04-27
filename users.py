@@ -83,6 +83,7 @@ def showCritcUsers(dfUsers,vulnerables = ['5f4dcc3b5aa765d61d8327deb882cf99', '3
     plt.ylabel("Criticidad")
     plt.xlabel("Usuarios")
     plt.title('Los 10 usuarios más críticos')
+    plt.savefig('topXCriticUsers')
     plt.show()
 
 
