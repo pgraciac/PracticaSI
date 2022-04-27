@@ -8,23 +8,26 @@ def legalToDB():
     for web in legal['legal']:
         insertarLegal(web)
 
-
-def showOutdatedWebs(dfLegal):
+def outdatedWebs(dfLegal, numero):
     webDesactualizadas = []
     dfDesactualizados = dfLegal.copy()
     dfDesactualizados['desact'] = dfLegal.loc[:, ['cookies', 'aviso', 'proteccionDeDatos']].sum(axis=1)
-    ejex = []
-    ejey = []
-    while len(webDesactualizadas) < 5:
+    webs = []
+    nPoliticas = []
+    while len(webDesactualizadas) < numero:
         min = dfDesactualizados['desact'].min()
         dfAux = dfDesactualizados[dfDesactualizados['desact'] == min]
         dfAux = dfAux.sort_values('creacion')
         name = list(dfAux['name'].head(1))[0]
-        ejex.append(name)
-        ejey.append(min)
+        webs.append(name)
+        nPoliticas.append(min)
         webDesactualizadas.append(name)
         dfDesactualizados = dfDesactualizados.drop(dfDesactualizados[dfDesactualizados['name'] == name].index)
-    plt.bar(ejex, ejey, color='blue')
+    return webs, nPoliticas
+
+def showOutdatedWebs(dfLegal):
+    webs, nPoliticas = outdatedWebs(dfLegal, 5)
+    plt.bar(webs, nPoliticas, color='blue')
     plt.ylabel("Cantidad de políticas desactualizadas")
     plt.xlabel("Nombre de la web")
     plt.title('Las 5 webs más desactualizadas')
