@@ -6,21 +6,23 @@
         {{ user }}
     </li>
     {% endfor %} {% if usersMas %}
-
-    <h2>Usuarios con mas de un 50% de emails de spam clicados</h2>
+</ul>
+<h2>Usuarios con mas de un 50% de emails de spam clicados</h2>
+<ul>
     {% for user in usersMas %}
     <li>
         {{ user }}
     </li>
-    {% endfor %} {% endif %} {% if usersMenos %}
-
-    <h2>Usuarios con menos de un 50% de emails de spam clicados</h2>
+    {% endfor %}
+</ul>
+{% endif %} {% if usersMenos %}
+<h2>Usuarios con menos de un 50% de emails de spam clicados</h2>
+{% if usersMenos %}
+<ul>
     {% for user in usersMenos%}
     <li>
         {{ user }}
     </li>
-    {% endfor %} {% endif %}
-
-
-
+    {% endfor %}
 </ul>
+{% endif %}

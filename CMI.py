@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request
+import requests as rq
+import json
 
 from basedatos import getFromDB
 from legal import outdatedWebs
@@ -30,6 +32,18 @@ def topWebsVulnerables():
     numero = request.form.get('numeroWebs')
     webs = outdatedWebs(dfLegal, int(numero))[0]
     return render_template('TopWebsVulnerables.html', webs=webs, numero=numero)
+
+@app.route('/lastVulnerabilities/', methods = ['GET'])
+def lastVulnerabilities():
+    response = rq.get('https://cve.circl.lu/api/last').json()
+    #response = (json.dumps(response[0]))
+    vulnerabilities = []
+    for resp in response:
+        if len(vulnerabilities) < 10:
+            vulnerabilities.append(resp['id'])
+        else:
+            break
+    return render_template('lastVulnerabilities.html', vulnerabilities = vulnerabilities)
 
 if __name__ == '__main__':
     app.run(debug=True)
