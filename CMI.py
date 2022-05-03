@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import requests as rq
-import json
+from flask-login import LoginManager
 
 from basedatos import getFromDB
 from legal import outdatedWebs
