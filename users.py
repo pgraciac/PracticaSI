@@ -139,3 +139,6 @@ def usersSpam(duda, dfUsers):
     elif duda == 'menos':
         dfUsersCriticos = dfUsersCriticos[dfUsersCriticos['criticidad'] < 0.5]
         return list(dfUsersCriticos['name'])
+
+def getUsers(dfUsers):
+    return dfUsers['name']

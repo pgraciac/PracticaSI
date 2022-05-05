@@ -12,7 +12,7 @@
         <h2>Bienvenido al CMI</h2>
     </div>
     <div id="ejercicio2">
-        <form action="topUsuariosCriticos/" method="post">
+        <form action="/topUsuariosCriticos/" method="POST">
             <p>Introduce una cantidad de usuarios: </p>
             <input type="number" name="numeroUsuarios">
             <br>
@@ -23,13 +23,11 @@
             <button id="unselect" onclick="unselect()">Deseleccionar</button>
             <input type="submit" name="submitUsuarios" value="Mostrar">
             <script>
-                function unselect() {
-                    document.querySelector('[name=50<]').forEach((x) => x.checked = false);
-                    document.querySelector('[name=50>]').forEach((x) => x.checked = false);
-                }
+                document.querySelector('[name=50<]').forEach((x) => x.checked = false);
+                document.querySelector('[name=50>]').forEach((x) => x.checked = false);
             </script>
         </form>
-        <form action="topWebsVulnerables/" method="post">
+        <form action="/topWebsVulnerables/" method="POST">
             <p>Introduce una cantidad de webs: </p>
             <input type="number" name="numeroWebs">
             <br>
@@ -38,10 +36,12 @@
     </div>
     <div class="vulnerabilidades">
         <p>Últimas 10 vulnerabilidades</p>
-        <form action="lastVulnerabilities/" method="get">
+        <form action="/lastVulnerabilities/" method="GET">
             <input type="submit" value="Mostrar">
         </form>
     </div>
+    <a href="/login/">Login</a>
+    <a href="/logout/">Logout</a>
 </body>
 
 </html>
