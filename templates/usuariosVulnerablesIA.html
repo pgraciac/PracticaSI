@@ -1,0 +1,39 @@
+<Title>Usuarios Vulnerables con IA</Title>
+<h2>Usuarios Vulnerables con IA</h2>
+{% if regresion.any() %}
+<h3>Predicción con Regresión Lineal</h3>
+Hay {{ regresionCount|int }} usuarios vulnerables y {{ ((names|length)-regresionCount)|int }} usuarios no vulnerables
+<ul>
+    {% for i in range(names|length) %}
+    <li>
+        {{ names[i]  }} -> {% if regresion[i]==1 %} vulnerable {% else %} no vulnerable {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if decTree.any() %}
+<h3>Predicción con Decision Tree</h3>
+Hay {{ decTreeCount }} usuarios vulnerables y {{ ((names|length)-decTreeCount)|int }} usuarios no vulnerables
+<ul>
+    {% for i in range(names|length) %}
+    <li>
+        {{ names[i]  }} -> {% if decTree[i]==1 %} vulnerable {% else %} no vulnerable {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if forest.any() %}
+<h3>Predicción con Random Forest</h3>
+Hay {{ forestCount|int }} usuarios vulnerables y {{ ((names|length)-forestCount)|int }} usuarios no vulnerables
+<p></p>
+<ul>
+    {% for i in range(names|length) %}
+    <li>
+        {{ names[i]  }} -> {% if forest[i]==1 %} vulnerable {% else %} no vulnerable {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<a href="/index/">Home</a>

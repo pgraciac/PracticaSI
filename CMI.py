@@ -1,3 +1,4 @@
+import numpy as np
 from flask_login import LoginManager, login_user, logout_user, login_required
 from flask import Flask, render_template, request, redirect, url_for, flash
 import requests as rq
@@ -9,6 +10,7 @@ from basedatos import getFromDB
 from legal import outdatedWebs
 from models.entities.user import User
 from users import criticUsers, usersSpam
+from ia import linearRegresion, decisionTree, randomForest
 
 app = Flask(__name__)
 
@@ -19,13 +21,27 @@ login_manager_app = LoginManager(app)
 def load_user(id):
     return ModelUser.get_by_id(id)
 
-@app.route('/index/', methods = ['GET'])
+
+@app.route('/index/', methods=['GET'])
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/topUsuariosCriticos/', methods = ['POST'])
+@app.route('/usuariosVulnerablesIA/', methods=['GET'])
+@login_required
+def usuariosVulnerablesIA():
+    regresion, names = linearRegresion()
+    decTree = decisionTree()[0]
+    forest = randomForest()[0]
+    print(regresion, decTree, forest)
+
+    return render_template('usuariosVulnerablesIA.html', names=names, regresion=regresion,
+                           regresionCount=np.sum(regresion), decTree=decTree, decTreeCount=np.sum(decTree),
+                           forest=forest, forestCount=np.sum(forest))
+
+
+@app.route('/topUsuariosCriticos/', methods=['POST'])
 @login_required
 def topUsuariosCriticos(usersMas=None, usersMenos=None):
     dfUsers = getFromDB('users')
@@ -40,7 +56,7 @@ def topUsuariosCriticos(usersMas=None, usersMenos=None):
     return render_template('TopUsuariosCriticos.html', users=users, usersMas=usersMas, usersMenos=usersMenos)
 
 
-@app.route('/topWebsVulnerables/', methods = ['POST'])
+@app.route('/topWebsVulnerables/', methods=['POST'])
 @login_required
 def topWebsVulnerables():
     dfLegal = getFromDB('legal')
@@ -49,7 +65,7 @@ def topWebsVulnerables():
     return render_template('TopWebsVulnerables.html', webs=webs, numero=numero)
 
 
-@app.route('/lastVulnerabilities/', methods = ['GET', 'POST'])
+@app.route('/lastVulnerabilities/', methods=['GET', 'POST'])
 def lastVulnerabilities():
     response = rq.get('https://cve.circl.lu/api/last').json()
     # response = (json.dumps(response[0]))
@@ -61,7 +77,8 @@ def lastVulnerabilities():
             break
     return render_template('lastVulnerabilities.html', vulnerabilities=vulnerabilities)
 
-@app.route('/login/', methods = ['GET', 'POST'])
+
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return render_template('login.html')
@@ -79,14 +96,17 @@ def login():
         else:
             return render_template('login.html')
 
+
 @app.route('/logout/')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
+
 def error401(error):
     return render_template('notAutorized.html')
+
 
 if __name__ == '__main__':
     app.secret_key = 'super secret key'
