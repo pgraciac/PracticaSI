@@ -20,12 +20,7 @@
             Mas del 50%
             <input type="radio" name="50mas"> Menos del 50%
             <input type="radio" name="50menos">
-            <button id="unselect" onclick="unselect()">Deseleccionar</button>
             <input type="submit" name="submitUsuarios" value="Mostrar">
-            <script>
-                document.querySelector('[name=50<]').forEach((x) => x.checked = false);
-                document.querySelector('[name=50>]').forEach((x) => x.checked = false);
-            </script>
         </form>
         <form action="/topWebsVulnerables/" method="POST">
             <p>Introduce una cantidad de webs: </p>

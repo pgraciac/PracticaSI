@@ -53,7 +53,7 @@ def topUsuariosCriticos(usersMas=None, usersMenos=None):
         usersMas = usersSpam('mas', dfUsers)
     if cincuentamenos == 'on':
         usersMenos = usersSpam('menos', dfUsers)
-    return render_template('TopUsuariosCriticos.html', users=users, usersMas=usersMas, usersMenos=usersMenos)
+    return render_template('TopUsuariosCriticos.html',top=numero, users=users, usersMas=usersMas, usersMenos=usersMenos)
 
 
 @app.route('/topWebsVulnerables/', methods=['POST'])
@@ -68,7 +68,6 @@ def topWebsVulnerables():
 @app.route('/lastVulnerabilities/', methods=['GET', 'POST'])
 def lastVulnerabilities():
     response = rq.get('https://cve.circl.lu/api/last').json()
-    # response = (json.dumps(response[0]))
     vulnerabilities = []
     for resp in response:
         if len(vulnerabilities) < 10:
@@ -88,7 +87,6 @@ def login():
 
         dfUsers = (getFromDB('users'))
         password = hashlib.new('md5', password.encode())
-        print(list(dfUsers[dfUsers['name'] == name]['contrasena'])[0])
         if list(dfUsers[dfUsers['name'] == name]['contrasena'])[0] == password.hexdigest():
             user = User(name, password.hexdigest())
             login_user(user)
