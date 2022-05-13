@@ -74,7 +74,7 @@ def linearRegresion():
 
     print(users_res)
     plt.scatter(users_test_x, users_res)
-    # plt.plot(users_test_x.values, users_pred)
+    plt.plot(users_test_x.values, users_pred)
     plt.xticks()
     plt.yticks()
     plt.show()
