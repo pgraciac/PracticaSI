@@ -101,7 +101,6 @@ def randomForest():
 
     clf = RandomForestClassifier(max_depth=2, random_state=0, n_estimators=10)
     clf.fit(users_train_x, users_train_y)
-    print(clf.predict(users_test_x))
 
     for i in range(len(clf.estimators_)):
         estimator = clf.estimators_[i]
